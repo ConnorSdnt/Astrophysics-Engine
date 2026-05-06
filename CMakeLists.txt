@@ -28,3 +28,10 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 add_subdirectory(tests)
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+add_executable(Astrophysics-Engine
+        src/main.cpp
+        include/Orbit.h
+        src/Orbit.cpp
+)
