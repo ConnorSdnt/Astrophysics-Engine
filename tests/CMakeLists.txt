@@ -1,0 +1,5 @@
+include(GoogleTest)
+
+add_executable(test_placeholder placeholder_test.cpp)
+target_link_libraries(test_placeholder PRIVATE GTest::gtest_main)
+gtest_discover_tests(test_placeholder)
