@@ -8,8 +8,8 @@
 
 constexpr double PI = 3.14159265358979323846;
 
-Orbit::Orbit(std::string body_name, double sma, double ecc, double inc, double raan, double aop, double anom, double gm)
-    : body_name(std::move(body_name)), sma(sma), ecc(ecc), inc(inc), raan(raan), aop(aop), anom(anom), gm(gm)
+Orbit::Orbit(const CelestialBody& body, double sma, double ecc, double inc, double raan, double aop, double anom)
+    : body(body), sma(sma), ecc(ecc), inc(inc), raan(raan), aop(aop), anom(anom)
 {
     if (sma <= 0) {
         throw std::invalid_argument("sma must be > 0");
@@ -29,13 +29,10 @@ Orbit::Orbit(std::string body_name, double sma, double ecc, double inc, double r
     if (anom < 0 || anom > 360) {
         throw std::invalid_argument("anom must be 0 <= aop <= 360");
     }
-    if (gm < 0) {
-        throw std::invalid_argument("gm must be > 0");
-    }
 }
 
-std::string Orbit::getBodyName() const {
-    return body_name;
+const CelestialBody& Orbit::getBody() const {
+    return body;
 }
 
 double Orbit::getSma() const {
@@ -62,12 +59,8 @@ double Orbit::getAnom() const {
     return anom;
 }
 
-double Orbit::getGm() const {
-    return gm;
-}
-
 double Orbit::getPeriod() const {
-    const double period = 2 * PI * std::sqrt(sma * sma * sma / gm);
+    const double period = 2 * PI * std::sqrt(sma * sma * sma / body.getGm());
     return period;
 }
 
@@ -89,14 +82,14 @@ double Orbit::getApoapsisRadius() const {
 
 double Orbit::getSpeed() const {
     const double r = getRadius();
-    const double speed = std::sqrt(gm * (2.0/r - 1.0/sma));
+    const double speed = std::sqrt(body.getGm() * (2.0/r - 1.0/sma));
     return speed;
 }
 
 double Orbit::getSpecificOrbitalEnergy() const {
     const double speed = getSpeed();
     const double radius = getRadius();
-    const double E = speed * speed / 2.0 - gm / radius;
+    const double E = speed * speed / 2.0 - body.getGm() / radius;
     return E;
 }
 
