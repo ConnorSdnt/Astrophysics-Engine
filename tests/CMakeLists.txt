@@ -13,3 +13,8 @@ add_executable(test_celestial_body test_celestial_body.cpp ${PROJECT_SOURCE_DIR}
 target_link_libraries(test_celestial_body PRIVATE GTest::gtest_main)
 target_include_directories(test_celestial_body PRIVATE ${PROJECT_SOURCE_DIR}/include)
 gtest_discover_tests(test_celestial_body)
+
+add_executable(test_spacecraft test_spacecraft.cpp ${PROJECT_SOURCE_DIR}/src/Spacecraft.cpp)
+target_link_libraries(test_spacecraft PRIVATE GTest::gtest_main)
+target_include_directories(test_spacecraft PRIVATE ${PROJECT_SOURCE_DIR}/include)
+gtest_discover_tests(test_spacecraft)

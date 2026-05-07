@@ -36,4 +36,6 @@ add_executable(Astrophysics-Engine
         src/Orbit.cpp
         include/CelestialBody.h
         src/CelestialBody.cpp
+        include/Spacecraft.h
+        src/Spacecraft.cpp
 )
