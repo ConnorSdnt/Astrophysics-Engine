@@ -38,4 +38,6 @@ add_executable(Astrophysics-Engine
         src/CelestialBody.cpp
         include/Spacecraft.h
         src/Spacecraft.cpp
+        include/StateVector.h
+        src/StateVector.cpp
 )

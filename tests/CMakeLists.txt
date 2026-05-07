@@ -18,3 +18,8 @@ add_executable(test_spacecraft test_spacecraft.cpp ${PROJECT_SOURCE_DIR}/src/Spa
 target_link_libraries(test_spacecraft PRIVATE GTest::gtest_main)
 target_include_directories(test_spacecraft PRIVATE ${PROJECT_SOURCE_DIR}/include)
 gtest_discover_tests(test_spacecraft)
+
+add_executable(test_state_vector test_state_vector.cpp ${PROJECT_SOURCE_DIR}/src/StateVector.cpp)
+target_link_libraries(test_state_vector PRIVATE GTest::gtest_main)
+target_include_directories(test_state_vector PRIVATE ${PROJECT_SOURCE_DIR}/include)
+gtest_discover_tests(test_state_vector)
