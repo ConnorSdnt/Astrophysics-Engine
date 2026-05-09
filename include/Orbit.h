@@ -13,16 +13,19 @@ public:
     Orbit(const CelestialBody& body, double sma, double ecc, double inc, double raan, double aop, double anom);
 
     [[nodiscard]] const CelestialBody& getBody() const;
+
     [[nodiscard]] double getSma() const;
     [[nodiscard]] double getEcc() const;
     [[nodiscard]] double getInc() const;
     [[nodiscard]] double getRaan() const;
     [[nodiscard]] double getAop() const;
     [[nodiscard]] double getAnom() const;
+
     [[nodiscard]] double getPeriod() const;
     [[nodiscard]] double getRadius() const;
     [[nodiscard]] double getPeriapsisRadius() const;
     [[nodiscard]] double getApoapsisRadius() const;
+
     [[nodiscard]] double getSpeed() const;
     [[nodiscard]] double getSpecificOrbitalEnergy() const;
 

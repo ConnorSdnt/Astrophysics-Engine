@@ -14,12 +14,65 @@ TEST(OrbitTest, ConstructsValidOrbit) {
 }
 
 /*
- * Test constructor throws an error on negative semi major axis
+ * Test constructor throws an error for a negative semi major axis on an elliptical orbit
  */
 TEST(OrbitTest, ThrowsOnNegativeSma) {
     const CelestialBody& earth = CelestialBody::get("Earth");
     EXPECT_THROW(Orbit(earth, -6771.0, 0.0006247, 51.6, 0.0, 0.0, 0.0),
                  std::invalid_argument);
+}
+
+/*
+ * Test constructor throws an error for a negative semi major axis on an elliptical orbit
+ */
+TEST(OrbitTest, ThrowsOnParabolicOrbit) {
+    const CelestialBody& earth = CelestialBody::get("Earth");
+    EXPECT_THROW(Orbit(earth, 10000.0, 1, 51.6, 0.0, 0.0, 0.0),
+                 std::invalid_argument);
+}
+
+/*
+ * Test constructor throws an error for a positive semi major axis on a hyperbolic orbit
+ */
+TEST(OrbitTest, ThrowsOnPosSMAForHyperbolicOrbit) {
+    const CelestialBody& earth = CelestialBody::get("Earth");
+    EXPECT_THROW(Orbit(earth, 10000.0, 1.5, 51.6, 0.0, 0.0, 0.0),
+                 std::invalid_argument);
+}
+
+/*
+ * Test correct period for hyperbolic orbit
+ */
+TEST(OrbitTest, TestZeroPeriodHyperbolicOrbit) {
+    const CelestialBody& earth = CelestialBody::get("Earth");
+    EXPECT_EQ(Orbit(earth, -10000.0, 1.5, 51.6, 0.0, 0.0, 0.0).getPeriod(), 0.0);
+}
+
+/*
+ * Test correct apoapsis radius for hyperbolic orbit
+ */
+TEST(OrbitTest, TestZeroApoapsisRadiusHyperbolicOrbit) {
+    const CelestialBody& earth = CelestialBody::get("Earth");
+    EXPECT_EQ(Orbit(earth, -10000.0, 1.5, 51.6, 0.0, 0.0, 0.0).getApoapsisRadius(), 0.0);
+}
+
+/*
+ * Test throws on anomaly exceeding asymptote for hyperbolic orbit
+ */
+TEST(OrbitTest, ThrowsOnHyperbolicAnomExceedsAsymptote) {
+    const CelestialBody& earth = CelestialBody::get("Earth");
+    // ecc = 1.5, max anom = acos(-1/1.5) ≈ 131.8°, so 150° should throw
+    EXPECT_THROW(Orbit(earth, -10000.0, 1.5, 0.0, 0.0, 0.0, 150.0),
+                 std::invalid_argument);
+}
+
+/*
+ * Test no throws on valid anomaly for hyperbolic orbit
+ */
+TEST(OrbitTest, ValidHyperbolicAnomAccepted) {
+    const CelestialBody& earth = CelestialBody::get("Earth");
+    // 90° is within the valid range for ecc = 1.5
+    EXPECT_NO_THROW(Orbit(earth, -10000.0, 1.5, 0.0, 0.0, 0.0, 90.0));
 }
 
 /*

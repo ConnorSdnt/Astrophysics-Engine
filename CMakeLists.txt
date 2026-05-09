@@ -26,18 +26,13 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(src)
+
 enable_testing()
 add_subdirectory(tests)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-add_executable(Astrophysics-Engine
-        src/main.cpp
-        include/Orbit.h
-        src/Orbit.cpp
-        include/CelestialBody.h
-        src/CelestialBody.cpp
-        include/Spacecraft.h
-        src/Spacecraft.cpp
-        include/StateVector.h
-        src/StateVector.cpp
-)
+add_executable(Astrophysics-Engine src/main.cpp
+        include/Vec3.h
+        include/Matrix3.h
+        include/OrbitalMath.h)
+target_link_libraries(Astrophysics-Engine PRIVATE Astrophysics_Engine_Core)

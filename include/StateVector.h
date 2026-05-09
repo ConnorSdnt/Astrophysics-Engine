@@ -5,6 +5,8 @@
 #ifndef STATEVECTOR_H
 #define STATEVECTOR_H
 
+#include <vector>
+
 class StateVector;
 
 StateVector operator*(double scalar, const StateVector& sv);
