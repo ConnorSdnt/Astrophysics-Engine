@@ -12,14 +12,14 @@
 class CelestialBody {
 public:
   static const CelestialBody& get(const std::string& name);
+  static const CelestialBody& get(const char* name) { return get(std::string(name)); }
+  static bool exists(const std::string& name);
 
   [[nodiscard]] std::string getName() const;
   [[nodiscard]] double getGm() const;
   [[nodiscard]] double getMeanRadius() const;
   [[nodiscard]] double getSoiRadius() const;
   [[nodiscard]] double getJ2Coef() const;
-
-  static bool exists(const std::string& name);
 
 private:
   CelestialBody(std::string  name, double gm, double mean_radius_km, double soi_radius_km, double j2_coef);

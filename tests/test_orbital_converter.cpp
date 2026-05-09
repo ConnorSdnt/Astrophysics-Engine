@@ -5,6 +5,7 @@
 #include "Orbit.h"
 #include "StateVector.h"
 #include <gtest/gtest.h>
+#include <cmath>
 
 TEST(OrbitalConverterTest, TestISSOrbitToState) {
     const CelestialBody& earth = CelestialBody::get("Earth");
