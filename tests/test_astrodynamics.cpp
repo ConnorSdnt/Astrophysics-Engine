@@ -8,6 +8,8 @@
 
 #include "Astrodynamics.h"
 #include <gtest/gtest.h>
+
+#include "Ephemeris.h"
 #include "RK4Integrator.h"
 
 TEST(AstrodynamicsTest, TestTwoBodyAcceleration) {
@@ -73,4 +75,57 @@ TEST(AstrodynamicsTest, TestNoJ2Precession) {
     if (raan_change < -180.0) raan_change += 360.0;
     if (raan_change >  180.0) raan_change -= 360.0;
     EXPECT_NEAR(raan_change, 0.0, 0.01);
+}
+
+TEST(EphemerisTest, EarthStateInternallyConsistent) {
+    const CelestialBody& sun = CelestialBody::get("Sun");
+    StateVector earth = Ephemeris::getStateAt("Earth", 0.0, sun);
+
+    // Verify vis-viva: v² = GM(2/r - 1/a)
+    double r = earth.getRadius();
+    double v = earth.getSpeed();
+    double a = 1.00000261 * 149597870.7; // Earth SMA in km
+    double gm = sun.getGm();
+
+    double v_expected = std::sqrt(gm * (2.0/r - 1.0/a));
+    EXPECT_NEAR(v, v_expected, 0.001); // within 1 m/s
+}
+
+TEST(EphemerisTest, EarthPositionAtJ2000MatchesHorizons) {
+    const CelestialBody& sun = CelestialBody::get("Sun");
+    StateVector earth = Ephemeris::getStateAt("Earth", 0.0, sun);
+    // JPL Horizons reference values at J2000
+    EXPECT_NEAR(earth.getX(), -26499033.68, 10000.0);
+    EXPECT_NEAR(earth.getY(), 144697296.79, 10000.0);
+    EXPECT_NEAR(earth.getZ(), -611.15,     1000.0);
+    EXPECT_NEAR(earth.getVX(), -29.794, 0.5);
+    EXPECT_NEAR(earth.getVY(), -5.469, 0.5);
+    EXPECT_NEAR(earth.getVZ(), 0.000182, 0.01);
+    EXPECT_NEAR(earth.getRadius(), 147103726.96, 10000.0);
+}
+
+TEST(EphemerisTest, EarthPositionAt2010MatchesHorizons) {
+    const CelestialBody& sun = CelestialBody::get("Sun");
+    StateVector earth = Ephemeris::getStateAt("Earth", 315619200.0, sun);
+
+    // JPL Horizons reference values at J2000 + 10 years
+    EXPECT_NEAR(earth.getX(), -2.761730272809177e+07, 50000.0);
+    EXPECT_NEAR(earth.getY(),  1.444833783392449e+08, 50000.0);
+    EXPECT_NEAR(earth.getZ(), -3211.65,               1000.0);
+    EXPECT_NEAR(earth.getVX(), -29.731,                  0.5);
+    EXPECT_NEAR(earth.getVY(),  -5.700,                  0.5);
+    EXPECT_NEAR(earth.getVZ(),   0.00145,               0.01);
+}
+
+TEST(EphemerisTest, MarsPositionAt2010MatchesHorizons) {
+    const CelestialBody& sun = CelestialBody::get("Sun");
+    StateVector mars = Ephemeris::getStateAt("Mars", 0.0, sun);
+
+    // JPL Horizons reference values at J2000 + 10 years
+    EXPECT_NEAR(mars.getX(), 2.080481406418420E+08, 50000.0);
+    EXPECT_NEAR(mars.getY(), -2.007052628025221E+06, 50000.0);
+    EXPECT_NEAR(mars.getZ(), -5.156288959268022E+06, 1000.0);
+    EXPECT_NEAR(mars.getVX(), 1.162672403766088E+00, 0.005);
+    EXPECT_NEAR(mars.getVY(), 2.629606454546266E+01, 0.005);
+    EXPECT_NEAR(mars.getVZ(), 5.222970229952857E-01, 0.0001);
 }

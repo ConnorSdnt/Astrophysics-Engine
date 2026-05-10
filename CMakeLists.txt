@@ -34,5 +34,12 @@ add_subdirectory(tests)
 add_executable(Astrophysics-Engine src/main.cpp
         include/Vec3.h
         include/Matrix3.h
-        include/OrbitalMath.h)
+        include/OrbitalMath.h
+        include/Trajectory.h
+        include/Astrodynamics.h
+        include/RK4Integrator.h
+        include/OrbitalPropagator.h
+        include/Ephemeris.h
+)
+
 target_link_libraries(Astrophysics-Engine PRIVATE Astrophysics_Engine_Core)

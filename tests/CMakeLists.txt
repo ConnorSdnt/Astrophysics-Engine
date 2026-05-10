@@ -19,3 +19,19 @@ gtest_discover_tests(test_state_vector)
 add_executable(test_orbital_converter test_orbital_converter.cpp)
 target_link_libraries(test_orbital_converter PRIVATE Astrophysics_Engine_Core GTest::gtest_main)
 gtest_discover_tests(test_orbital_converter)
+
+add_executable(test_trajectory_point test_trajectory_point.cpp)
+target_link_libraries(test_trajectory_point PRIVATE Astrophysics_Engine_Core GTest::gtest_main)
+gtest_discover_tests(test_trajectory_point)
+
+add_executable(test_astrodynamics test_astrodynamics.cpp)
+target_link_libraries(test_astrodynamics PRIVATE Astrophysics_Engine_Core GTest::gtest_main)
+gtest_discover_tests(test_astrodynamics)
+
+add_executable(test_rk4 test_rk4.cpp)
+target_link_libraries(test_rk4 PRIVATE Astrophysics_Engine_Core GTest::gtest_main)
+gtest_discover_tests(test_rk4)
+
+add_executable(test_propagator test_propagator.cpp)
+target_link_libraries(test_propagator PRIVATE Astrophysics_Engine_Core GTest::gtest_main)
+gtest_discover_tests(test_propagator)
