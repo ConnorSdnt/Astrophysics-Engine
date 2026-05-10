@@ -5,11 +5,17 @@ In screensaver mode, it will run autonomously, picking random destinations, solv
 
 ## Current Status
 
-**Phase 1 - Foundation (In Progress)**
+**Phase 1 - Foundation (✅)**
 - US5 - CMake Build system, GoogleTest, GitHub actions CI ✅
 - US1 - Orbit representation with 6 orbital elements ✅
 - US2 - CelestialBody Catalogue (all solar system bodies) ✅
-- US3 - Spacecraft mass and propulsion model ⬜️
+- US3 - Spacecraft mass and propulsion model ✅
+
+**Phase 2 - Physics Engine (✅)**
+- US7 - RK4 integrator and two-body equations of motion ✅
+- US8 - J2 oblateness perturbation ✅
+- US9 - Trajectory representation ✅
+- US10 - SOI detection and automatic frame transitions ✅
 
 ## Backlog & User Stories
 Full backlog managed in [GitHub Projects](https://github.com/users/ConnorSdnt/projects/4)
@@ -19,18 +25,28 @@ Full backlog managed in [GitHub Projects](https://github.com/users/ConnorSdnt/pr
 Astrophysics-Engine/
 ├── include/        # Public headers
 ├── src/            # Implementation files
-│   ├── Orbit.cpp
-│   ├── CelestialBody.cpp
-│   └── Spacecraft.cpp (In development)
+│   ├── CelestialBody.cpp     # Solar system body catalogue with parent hierarchy
+│   ├── Orbit.cpp             # 6-element orbital representation (all orbit types)
+│   ├── Spacecraft.cpp        # Mass and propulsion model
+│   ├── StateVector.cpp       # Cartesian position and velocity
+│   ├── OrbitalConverter.cpp  # Elements ↔ state vector conversion
+│   ├── TrajectoryPoint.cpp   # Single point in a trajectory
+│   ├── Ephemeris.cpp         # JPL mean elements for planetary positions
+│   ├── OrbitalPropagator.cpp # RK4 propagation with SOI transitions
+│   └── main.cpp              # Entry point
 ├── tests/          # GoogleTest unit tests
-└── main.cpp        # Entry point
 ```
 
 **Core components:**
 
-- `Orbit` — immutable snapshot of an orbital state (6 classical elements)
-- `CelestialBody` — gravitational body catalogue (GM, radius, SOI, J2)
-- `Spacecraft` — mass and propulsion properties _(in progress)_
+- `Orbit` — immutable snapshot of any orbital state (circular, elliptical, hyperbolic)
+- `CelestialBody` — solar system gravitational body catalogue with parent hierarchy (GM, radius, SOI, J2)
+- `Spacecraft` — mass and propulsion properties with Tsiolkovsky modelling
+- `StateVector` — Cartesian state vector for position and velocity with arithmetic operators
+- `OrbitalConverter` — bidirectional conversion between orbital elements and state vectors
+- `Ephemeris` — JPL mean orbital elements for all 8 planets at J2000
+- `OrbitalPropagator` — RK4 integrator with J2 perturbation and automatic SOI transitions
+- `TrajectoryPoint / Trajectory` — full trajectory representation with timestamps and central body
 
 ## Tech Stack
 
@@ -61,9 +77,9 @@ ctest --output-on-failure
 
 | Phase | Description | Status |
 |---|---|---|
-| 1 — Foundation | Orbit, CelestialBody, Spacecraft | In progress |
-| 2 — Physics | RK4 propagator, J2, SOI transitions | ⬜ Backlog |
-| 3 — Lambert | Izzo solver, patched conic pipeline | ⬜ Backlog |
+| 1 — Foundation | Orbit, CelestialBody, Spacecraft | ✅ |
+| 2 — Physics | RK4 propagator, J2, SOI transitions | ✅ |
+| 3 — Lambert | Izzo solver, patched conic pipeline | In Progress |
 | 4 — Optimiser | Multi-objective, Pareto front | ⬜ Backlog |
 | 5 — Validator | Yoshida, finite burns, diff. correction, Monte Carlo | ⬜ Backlog |
 | 6 — Ephemeris | JPL SPICE DE440 | ⬜ Backlog |
