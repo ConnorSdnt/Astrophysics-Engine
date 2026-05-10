@@ -35,7 +35,7 @@ Orbit::Orbit(const CelestialBody& body, double sma, double ecc, double inc, doub
         throw std::invalid_argument("Eccentricity cannot be less than 0");
     }
 
-    if (inc < 0 || 180 < inc) {
+    if (inc < -1.0 || 180 < inc) {
         throw std::invalid_argument("Inclination must be in the range \'0 <= inc <= 180\'");
     }
     if (raan < 0 || 360 <= raan) {

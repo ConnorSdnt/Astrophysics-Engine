@@ -27,12 +27,12 @@ public:
     StateVector operator + (const StateVector& other) const;
     StateVector operator * (double scalar) const;
 private:
-    const double x;
-    const double y;
-    const double z;
-    const double vx;
-    const double vy;
-    const double vz;
+    double x;
+    double y;
+    double z;
+    double vx;
+    double vy;
+    double vz;
 };
 
 

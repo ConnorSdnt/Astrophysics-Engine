@@ -4,6 +4,9 @@ add_library(Astrophysics_Engine_Core
         Spacecraft.cpp
         StateVector.cpp
         OrbitalConverter.cpp
+        TrajectoryPoint.cpp
+        OrbitalPropagator.cpp
+        Ephemeris.cpp
 )
 
 target_include_directories(Astrophysics_Engine_Core
